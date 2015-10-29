@@ -1,0 +1,45 @@
+{
+  "name": "gubbins",
+  "version": "0.0.1",
+  "description": "A password-sharing web service",
+  "main": "dist/node/app.js",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "cookie-parser": "^1.4.0",
+    "cors": "^2.7.1",
+    "express": "^4.13.3",
+    "express-session": "^1.12.0",
+    "method-override": "^2.3.5",
+    "mongodb": "^2.0.47",
+    "morgan": "^1.6.1"
+  },
+  "devDependencies": {
+    "babelify": "^6.4.0",
+    "browserify": "^12.0.1",
+    "del": "^2.0.2",
+    "globby": "^3.0.1",
+    "gulp": "^3.9.0",
+    "gulp-plumber": "^1.0.1",
+    "karma": "^0.13.14",
+    "require-dir": "^0.3.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "yargs": "^3.29.0"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/gulp test",
+    "build": "./node_modules/.bin/gulp default",
+    "start": "node server.js",
+    "dev": "./node_modules/.bin/nodemon --watch dist server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ansballard/gubbins.git"
+  },
+  "author": "Aaron Ballard",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ansballard/gubbins/issues"
+  },
+  "homepage": "https://github.com/ansballard/gubbins#readme"
+}
