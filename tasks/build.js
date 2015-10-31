@@ -27,7 +27,9 @@
   gulp.task("buildNode", ["cleanNode"], () => {
     return gulp.src(config.src.node)
       .pipe(plumber())
-      .pipe(babel())
+      .pipe(babel({
+        presets: ["babel-preset-es2015"]
+      }))
       .pipe(gulp.dest(config.dist.node));
   });
 

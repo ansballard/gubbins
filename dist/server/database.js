@@ -1,15 +1,17 @@
-const MongoClient = require('mongodb').MongoClient;
-const ObjectID = require('mongodb').ObjectID;
+'use strict';
 
-(() => {
+var MongoClient = require('mongodb').MongoClient;
+var ObjectID = require('mongodb').ObjectID;
+
+(function () {
   "use strict";
 
-  let db;
+  var db = undefined;
 
   module.exports = {
-    init() {
-      let conn = "mongodb://" + process.env.DBUSER + ":" + process.env.DBPASS + "@" + process.env.DBURL;
-      MongoClient.connect(conn, (err, _db) => {
+    init: function init() {
+      var conn = "mongodb://" + process.env.DBUSER + ":" + process.env.DBPASS + "@" + process.env.DBURL;
+      MongoClient.connect(conn, function (err, _db) {
         if (!err) {
           console.log("We are connected");
           db = _db;
@@ -19,16 +21,16 @@ const ObjectID = require('mongodb').ObjectID;
       });
       return this;
     },
-    addPass(pass, cb, numberOfUses, hoursToLive) {
-      const coll = db.collection("pass");
-      let deathDate = new Date().getTime() + (hoursToLive || 24) * 1000 * 60 * 60;
+    addPass: function addPass(pass, cb, numberOfUses, hoursToLive) {
+      var coll = db.collection("pass");
+      var deathDate = new Date().getTime() + (hoursToLive || 24) * 1000 * 60 * 60;
       coll.insert({ pass: pass, numberOfUses: numberOfUses || 1, deathDate: deathDate }, { w: 1 }, function (err, res) {
         console.log(res.ops[0]._id);
         cb(res.ops[0]._id);
       });
     },
-    getPass(id, cb) {
-      const coll = db.collection("pass");
+    getPass: function getPass(id, cb) {
+      var coll = db.collection("pass");
       coll.findOne({ _id: new ObjectID(id) }, function (err, doc) {
         if (err) {
           throw err;

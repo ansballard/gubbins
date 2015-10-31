@@ -1,19 +1,22 @@
-(() => {
+"use strict";
+
+(function () {
   "use strict";
 
-  const crypto = require("crypto");
+  var crypto = require("crypto");
 
   module.exports = {
-    keygen(cb) {
-      crypto.randomBytes(16, (e, buf) => {
+    keygen: function keygen(cb) {
+      crypto.randomBytes(16, function (e, buf) {
         if (e) {
           throw e;
         }
         cb(buf.toString("hex"));
       });
     },
-    encrypt(content, key) {
-      let encrypted, cipher;
+    encrypt: function encrypt(content, key) {
+      var encrypted = undefined,
+          cipher = undefined;
 
       cipher = crypto.createCipher("aes-256-cbc", key);
       encrypted = cipher.update(content, "utf8", "hex");
@@ -21,8 +24,9 @@
 
       return encrypted;
     },
-    decrypt(content, key) {
-      let decrypted, cipher;
+    decrypt: function decrypt(content, key) {
+      var decrypted = undefined,
+          cipher = undefined;
 
       cipher = crypto.createDecipher("aes-256-cbc", key);
       decrypted = cipher.update(content, "hex", "utf8");
