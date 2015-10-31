@@ -13,7 +13,7 @@ var ObjectID = require('mongodb').ObjectID;
       var conn = "mongodb://" + process.env.DBUSER + ":" + process.env.DBPASS + "@" + process.env.DBURL;
       MongoClient.connect(conn, function (err, _db) {
         if (!err) {
-          console.log("We are connected");
+          console.log("DB Connection Successful");
           db = _db;
         } else {
           console.log(err, conn);
@@ -21,10 +21,10 @@ var ObjectID = require('mongodb').ObjectID;
       });
       return this;
     },
-    addPass: function addPass(pass, cb, numberOfUses, hoursToLive) {
+    addPass: function addPass(pass, cb, numberOfUses, hoursToLive, from) {
       var coll = db.collection("pass");
       var deathDate = new Date().getTime() + (hoursToLive || 24) * 1000 * 60 * 60;
-      coll.insert({ pass: pass, numberOfUses: numberOfUses || 1, deathDate: deathDate }, { w: 1 }, function (err, res) {
+      coll.insert({ pass: pass, numberOfUses: numberOfUses || 1, from: from, deathDate: deathDate }, { w: 1 }, function (err, res) {
         console.log(res.ops[0]._id);
         cb(res.ops[0]._id);
       });
@@ -36,22 +36,17 @@ var ObjectID = require('mongodb').ObjectID;
           throw err;
         }
         if (doc == null) {
-          console.log("Doesn't Exist");
           cb(false);
         } else if (doc.deathDate < new Date().getTime()) {
-          console.log("expired");
           coll.remove({ _id: ObjectID(id) }, true);
           cb(false);
         } else if (doc.numberOfUses === 1) {
           cb(doc.pass);
-          console.log("Last Use");
           coll.remove({ _id: ObjectID(id) }, true);
         } else if (doc.numberOfUses > 1) {
-          console.log("More Uses");
           coll.update({ _id: ObjectID(id) }, { $inc: { numberOfUses: -1 } });
           cb(doc.pass);
         } else {
-          console.log("Remove");
           coll.remove({ _id: ObjectID(id) }, true);
           cb(false);
         }

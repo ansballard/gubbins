@@ -2,20 +2,40 @@
 
 var encryption = require("./encryption");
 var database = require("./database").init();
+var md = require("marked");
+var fs = require("fs");
+var path = require("path");
 
 module.exports = function (app) {
 	"use strict";
 
 	app.get("/", function (req, res) {
-		res.send("Welcome to Gubbins!");
-		res.end();
+		fs.readFile(path.join(__dirname, "..", "..", "README.md"), "utf8", function (err, parsed) {
+			if (err) {
+				res.send("Welcome to Gubbins! See <a href='http://github.com/ansballard/gubbins#readme'>Github</a> for instructions!");
+			} else {
+				res.send(md(parsed.toString()));
+			}
+			res.end();
+		});
+	});
+
+	app.get("/changelog", function (req, res) {
+		fs.readFile(path.join(__dirname, "..", "..", "CHANGELOG.md"), "utf8", function (err, parsed) {
+			if (err) {
+				res.send("Welcome to Gubbins! See <a href='http://github.com/ansballard/gubbins#changelog'>Github</a> for a full changelog and version information!");
+			} else {
+				res.send(md(parsed.toString()));
+			}
+			res.end();
+		});
 	});
 
 	app.get("/api/generate/:content/", function (req, res) {
 		encryption.keygen(function (key) {
 			var enc = encryption.encrypt(req.params.content.toString("utf8"), key);
 			database.addPass(enc, function (id) {
-				res.send("<a href='/api/getpass/" + id + "/" + key + "'>Link to Password</a>");
+				res.send("http://gubbins-ansballard.rhcloud.com/api/getpass/" + id + "/" + key);
 				res.end();
 			});
 		});
@@ -25,20 +45,20 @@ module.exports = function (app) {
 		encryption.keygen(function (key) {
 			var enc = encryption.encrypt(req.params.content.toString("utf8"), key);
 			database.addPass(enc, function (id) {
-				res.send("<a href='/api/getpass/" + id + "/" + key + "'>Link to Password</a>");
+				res.send("http://gubbins-ansballard.rhcloud.com/api/getpass/" + id + "/" + key);
 				res.end();
-			}, req.params.numberOfUses || undefined, req.params.hoursToLive || undefined);
+			}, req.params.numberOfUses || undefined, req.params.hoursToLive || undefined, req.params.from || undefined);
 		});
 	});
 
 	app.get("/api/getpass/:id/:key", function (req, res) {
 		database.getPass(req.params.id, function (pass) {
 			if (!pass) {
-				res.send("No password for you!");
+				res.sendStatus(403);
 			} else {
 				res.send(encryption.decrypt(pass, req.params.key));
+				res.end();
 			}
-			//res.end();
 		});
 	});
 };
