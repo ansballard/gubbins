@@ -8,6 +8,7 @@
   const globby = require("globby");
   const browserify = require("browserify");
   const babelify = require("babelify");
+  const babel = require("gulp-babel");
 
   const config = require("../gulpconfig");
 
@@ -26,6 +27,7 @@
   gulp.task("buildNode", ["cleanNode"], () => {
     return gulp.src(config.src.node)
       .pipe(plumber())
+      .pipe(babel())
       .pipe(gulp.dest(config.dist.node));
   });
 

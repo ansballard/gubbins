@@ -2,7 +2,7 @@
   "name": "gubbins",
   "version": "0.0.1",
   "description": "A password-sharing web service",
-  "main": "dist/node/app.js",
+  "main": "server.js",
   "dependencies": {
     "body-parser": "^1.14.1",
     "cookie-parser": "^1.4.0",
@@ -10,6 +10,7 @@
     "express": "^4.13.3",
     "express-session": "^1.12.0",
     "method-override": "^2.3.5",
+    "moment": "^2.10.6",
     "mongodb": "^2.0.47",
     "morgan": "^1.6.1"
   },
@@ -19,6 +20,7 @@
     "del": "^2.0.2",
     "globby": "^3.0.1",
     "gulp": "^3.9.0",
+    "gulp-babel": "^6.0.0",
     "gulp-plumber": "^1.0.1",
     "karma": "^0.13.14",
     "require-dir": "^0.3.0",
@@ -35,6 +37,10 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ansballard/gubbins.git"
+  },
+  "engines": {
+    "node": ">= 0.12.0",
+    "npm": ">= 2.0.0"
   },
   "author": "Aaron Ballard",
   "license": "Apache-2.0",
