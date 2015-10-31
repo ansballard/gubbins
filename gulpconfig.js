@@ -22,7 +22,7 @@
     ]
   };
 
-  let deploy = {
+  var deploy = {
 
   };
 
