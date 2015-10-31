@@ -1,8 +1,6 @@
 (function () {
   "use strict";
 
-  var argv = require("yargs").argv;
-
   var distFolder = "./dist/";
   var srcFolder = {
     "main": "./src/",

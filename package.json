@@ -18,8 +18,7 @@
     "gulp": "^3.9.0",
     "gulp-babel": "^6.0.0",
     "gulp-plumber": "^1.0.1",
-    "require-dir": "^0.3.0",
-    "yargs": "^3.29.0"
+    "require-dir": "^0.3.0"
   },
   "scripts": {
     "test": "./node_modules/.bin/gulp test",
