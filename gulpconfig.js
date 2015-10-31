@@ -1,21 +1,21 @@
-(() => {
+(function () {
   "use strict";
 
-  const argv = require("yargs").argv;
+  var argv = require("yargs").argv;
 
-  const distFolder = "./dist/";
-  const srcFolder = {
+  var distFolder = "./dist/";
+  var srcFolder = {
     "main": "./src/",
     "node": "./src/node/"
   };
 
-  let dist = {
+  var dist = {
     "main": distFolder,
     "specs": "./tmp/specs/",
     "node": distFolder + "server/"
   };
 
-  let src = {
+  var src = {
     "specs": srcFolder.js + "**/_tests/*Spec.js",
     "node": [
       srcFolder.node + "*.js"
