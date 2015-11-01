@@ -1,10 +1,8 @@
 "use strict";
 
 var encryption = require("./encryption");
+var markdown = require("./markdown");
 var database = require("./database").init();
-var md = require("marked");
-var fs = require("fs");
-var path = require("path");
 
 module.exports = function (app) {
 	"use strict";
@@ -19,22 +17,22 @@ module.exports = function (app) {
 	});
 
 	app.get("/readme", function (req, res) {
-		fs.readFile(path.join(__dirname, "..", "..", "README.md"), "utf8", function (err, parsed) {
+		markdown("README", function (content, err) {
 			if (err) {
 				res.send("Welcome to Gubbins! See <a href='http://github.com/ansballard/gubbins#readme'>Github</a> for instructions!");
 			} else {
-				res.send(md(parsed.toString()));
+				res.send(content);
 			}
 			res.end();
 		});
 	});
 
 	app.get("/changelog", function (req, res) {
-		fs.readFile(path.join(__dirname, "..", "..", "CHANGELOG.md"), "utf8", function (err, parsed) {
+		markdown("CHANGELOG", function (content, err) {
 			if (err) {
 				res.send("Welcome to Gubbins! See <a href='http://github.com/ansballard/gubbins#changelog'>Github</a> for a full changelog and version information!");
 			} else {
-				res.send(md(parsed.toString()));
+				res.send(content);
 			}
 			res.end();
 		});

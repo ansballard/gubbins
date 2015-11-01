@@ -36,29 +36,23 @@ var ObjectID = require('mongodb').ObjectID;
           throw err;
         }
         if (doc == null) {
-          console.log("null doc");
           cb(false);
         } else if (doc.deathDate < new Date().getTime()) {
-          console.log("expired");
           cb(false);
           coll.remove({ _id: ObjectID(id) }, true);
         } else if (doc.numberOfUses === 1) {
-          console.log("1 use left");
           cb(doc.pass);
           coll.remove({ _id: ObjectID(id) }, true);
         } else if (doc.numberOfUses > 1) {
-          //console.log("multiple uses");
           coll.update({ _id: ObjectID(id) }, { $inc: { numberOfUses: -1 } }, function (err, result) {
             if (err) {
               cb(false);
               console.log(err);
             } else {
               cb(doc.pass);
-              console.log(result);
             }
           });
         } else {
-          console.log("other");
           cb(false);
           coll.remove({ _id: ObjectID(id) }, true);
         }

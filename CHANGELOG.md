@@ -8,6 +8,9 @@
 - GUI for generating is now the root path
 - Readme is now at `/readme`
 - `numberOfUses` is explicitly cast as an int
+- Markdown logic is now moved to `markdown.js`
+- Switched `gui.html` post action to real url
+- Removed console.logs
 
 **Bug Fixes**
 
