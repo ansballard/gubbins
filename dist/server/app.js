@@ -22,7 +22,7 @@ var corsOptions = {
 
 app.set("port", port);
 app.set("ip", ipaddress);
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "..", "..", "views"));
 app.set("view engine", "html");
 app.use(cors());
 app.use(bodyParser.json());

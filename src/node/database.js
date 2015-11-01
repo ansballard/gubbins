@@ -22,7 +22,7 @@ const ObjectID = require('mongodb').ObjectID;
     addPass(pass, cb, numberOfUses, hoursToLive, from) {
       const coll = db.collection("pass");
       let deathDate = new Date().getTime() + ((hoursToLive || 24) * 1000 * 60 * 60);
-      coll.insert({pass: pass, numberOfUses: numberOfUses || 1, from: from, deathDate: deathDate}, {w:1}, function(err, res) {
+      coll.insert({pass: pass, numberOfUses: +numberOfUses || 1, from: from, deathDate: deathDate}, {w:1}, function(err, res) {
         console.log(res.ops[0]._id);
         cb(res.ops[0]._id);
       });
@@ -34,20 +34,32 @@ const ObjectID = require('mongodb').ObjectID;
           throw err;
         }
         if(doc == null) {
+          console.log("null doc");
           cb(false);
         }
         else if(doc.deathDate < new Date().getTime()) {
-          coll.remove({_id: ObjectID(id)}, true);
+          console.log("expired");
           cb(false);
+          coll.remove({_id: ObjectID(id)}, true);
         } else if(doc.numberOfUses === 1) {
+          console.log("1 use left");
           cb(doc.pass);
           coll.remove({_id: ObjectID(id)}, true);
         } else if(doc.numberOfUses > 1) {
-          coll.update({_id: ObjectID(id)}, {$inc: {numberOfUses: -1}});
-          cb(doc.pass);
+          //console.log("multiple uses");
+          coll.update({_id: ObjectID(id)}, {$inc: {numberOfUses: -1}}, (err, result) => {
+            if(err) {
+              cb(false);
+              console.log(err);
+            } else {
+              cb(doc.pass);
+              console.log(result);
+            }
+          });
         } else {
-          coll.remove({_id: ObjectID(id)}, true);
+          console.log("other");
           cb(false);
+          coll.remove({_id: ObjectID(id)}, true);
         }
       });
     }

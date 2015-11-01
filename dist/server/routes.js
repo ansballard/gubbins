@@ -10,6 +10,15 @@ module.exports = function (app) {
 	"use strict";
 
 	app.get("/", function (req, res) {
+		res.sendFile("gui.html", { root: app.get("views") }, function (err) {
+			if (err) {
+				console.log(err);
+				res.status(err.status).end();
+			}
+		});
+	});
+
+	app.get("/readme", function (req, res) {
 		fs.readFile(path.join(__dirname, "..", "..", "README.md"), "utf8", function (err, parsed) {
 			if (err) {
 				res.send("Welcome to Gubbins! See <a href='http://github.com/ansballard/gubbins#readme'>Github</a> for instructions!");
@@ -41,13 +50,13 @@ module.exports = function (app) {
 		});
 	});
 
-	app.post("/api/generate/:content/", function (req, res) {
+	app.post("/api/generate/", function (req, res) {
 		encryption.keygen(function (key) {
-			var enc = encryption.encrypt(req.params.content.toString("utf8"), key);
+			var enc = encryption.encrypt(req.body.content.toString("utf8"), key);
 			database.addPass(enc, function (id) {
 				res.send("http://gubbins-ansballard.rhcloud.com/api/getpass/" + id + "/" + key);
 				res.end();
-			}, req.params.numberOfUses || undefined, req.params.hoursToLive || undefined, req.params.from || undefined);
+			}, req.body.numberOfUses || undefined, req.body.hoursToLive || undefined, req.body.from || undefined);
 		});
 	});
 

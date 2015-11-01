@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0 (10/31/2015)
+
+**Implemented Features**
+
+- `api/generate` POST route doesn't use url parameters
+- GUI for generating is now the root path
+- Readme is now at `/readme`
+- `numberOfUses` is explicitly cast as an int
+
+**Bug Fixes**
+
+- Bugs!
+
 ## 0.0.2 (10/31/2015)
 
 **Implemented Features**

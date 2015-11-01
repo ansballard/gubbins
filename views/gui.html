@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gubbins GUI</title>
+</head>
+<body>
+
+  <h1>URL Generator</h1>
+  <form method="post" action="http://localhost:3000/api/generate/">
+    <div>
+      <label for="pass">Password</label>
+      <input type="text" id="pass" name="content" required/>
+    </div>
+    <div>
+      <label for="numberOfUses">Number of Uses</label>
+      <input type="number" min="1" step="1" id="numberOfUses" name="numberOfUses" placeholder="1"/>
+    </div>
+    <div>
+      <label for="hoursToLive">Hours To Stay Active</label>
+      <input type="number" min="1" step="1" id="hoursToLive" name="hoursToLive" placeholder="24"/>
+    </div>
+    <div>
+      <label for="from">From</label>
+      <input type="text" id="from" name="from"/>
+    </div>
+    <div>
+      <button type="submit" id="getURLBtn">Get URL</button>
+    </div>
+  </form>
+
+  <div>
+    <h1>Links</h1>
+    <a href="/readme" title="Readme">Readme</a>
+    <a href="/changelog" title="Changelog">Changelog</a>
+    <a href="http://github.com/ansballard/gubbins" title="Github Repo">Github Repo</a>
+  </div>
+
+</body>
+</html>

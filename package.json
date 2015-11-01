@@ -1,6 +1,6 @@
 {
   "name": "gubbins",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "A password-sharing web service",
   "main": "server.js",
   "dependencies": {

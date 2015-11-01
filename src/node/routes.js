@@ -4,9 +4,19 @@ const md = require("marked");
 const fs = require("fs");
 const path = require("path");
 
-module.exports = function(app) { "use strict";
+module.exports = function(app) {
+	"use strict";
 
 	app.get("/", (req, res) => {
+		res.sendFile("gui.html", {root: app.get("views")}, function(err) {
+			if(err) {
+				console.log(err);
+				res.status(err.status).end();
+			}
+		})
+	});
+
+	app.get("/readme", (req, res) => {
 		fs.readFile(path.join(__dirname, "..", "..", "README.md"), "utf8", (err, parsed) => {
 			if(err) {
 				res.send("Welcome to Gubbins! See <a href='http://github.com/ansballard/gubbins#readme'>Github</a> for instructions!");
@@ -38,17 +48,17 @@ module.exports = function(app) { "use strict";
 		});
 	});
 
-	app.post("/api/generate/:content/", (req, res) => {
+	app.post("/api/generate/", (req, res) => {
 		encryption.keygen((key) => {
-			let enc = encryption.encrypt(req.params.content.toString("utf8"), key);
+			let enc = encryption.encrypt(req.body.content.toString("utf8"), key);
 			database.addPass(enc,
 				(id) => {
 					res.send("http://gubbins-ansballard.rhcloud.com/api/getpass/" + id + "/" + key);
 					res.end();
 				},
-				req.params.numberOfUses || undefined,
-				req.params.hoursToLive || undefined,
-				req.params.from || undefined
+				req.body.numberOfUses || undefined,
+				req.body.hoursToLive || undefined,
+				req.body.from || undefined
 			);
 		});
 	});

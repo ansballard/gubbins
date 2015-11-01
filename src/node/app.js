@@ -1,26 +1,26 @@
-var express = require("express");
-  var bodyParser = require("body-parser");
-  var cookieParser = require("cookie-parser");
-  var methodOverride = require("method-override");
-  var session = require("express-session");
-  var cors = require("cors");
-  var morgan = require("morgan");
-var app = express();
+const express = require("express");
+  const bodyParser = require("body-parser");
+  const cookieParser = require("cookie-parser");
+  const methodOverride = require("method-override");
+  const session = require("express-session");
+  const cors = require("cors");
+  const morgan = require("morgan");
+const app = express();
 
-var http = require("http");
-var path = require("path");
+const http = require("http");
+const path = require("path");
 
-var ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
-var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
+let ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+let port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
-var corsOptions = {
+let corsOptions = {
   origin: true,
   methods: ["GET", "POST"]
 };
 
 app.set("port", port);
 app.set("ip", ipaddress);
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "..", "..", "views"));
 app.set("view engine", "html");
 app.use(cors());
 app.use(bodyParser.json());
@@ -34,6 +34,6 @@ app.use(cors(corsOptions));
 
 require("./routes.js")(app);
 
-http.createServer(app).listen(app.get("port"), app.get("ip"), function() { "use strict";
+http.createServer(app).listen(app.get("port"), app.get("ip"), () => { "use strict";
   console.log("Express server listening at " + app.get("ip") + ":" + app.get("port"));
 });
