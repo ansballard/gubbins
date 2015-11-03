@@ -1,8 +1,9 @@
-const MongoClient = require('mongodb').MongoClient;
-const ObjectID = require('mongodb').ObjectID;
-
 (() => {
   "use strict";
+
+  const MongoClient = require('mongodb').MongoClient;
+  const ObjectID = require('mongodb').ObjectID;
+  const q = require("q");
 
   let db;
 
@@ -14,48 +15,72 @@ const ObjectID = require('mongodb').ObjectID;
           console.log("DB Connection Successful");
           db = _db;
         } else {
-          console.log(err, conn);
+          throw err;
         }
       });
       return this;
     },
-    addPass(pass, cb, numberOfUses, hoursToLive, from) {
+    addPass(pass, numberOfUses, hoursToLive, from) {
+      const deferred = q.defer();
       const coll = db.collection("pass");
+      pass = pass.length > 140 ? pass.substr(0,140) : pass;
+      from = (from && from.length > 140) ? from.substr(0,140) : from;
       let deathDate = new Date().getTime() + ((hoursToLive || 24) * 1000 * 60 * 60);
       coll.insert({pass: pass, numberOfUses: +numberOfUses || 1, from: from, deathDate: deathDate}, {w:1}, function(err, res) {
-        console.log(res.ops[0]._id);
-        cb(res.ops[0]._id);
+        if(err) {
+          deferred.reject(err);
+        } else {
+          deferred.resolve(res.ops[0]._id);
+        }
       });
+      return deferred.promise;
     },
-    getPass(id, cb) {
+    getPass(id) {
+      const deferred = q.defer();
       const coll = db.collection("pass");
       coll.findOne({_id: new ObjectID(id)}, function(err, doc) {
         if(err) {
-          throw err;
+          deferred.reject(err);
         }
         if(doc == null) {
-          cb(false);
+          deferred.resolve(false);
         }
         else if(doc.deathDate < new Date().getTime()) {
-          cb(false);
+          deferred.resolve(false);
           coll.remove({_id: ObjectID(id)}, true);
         } else if(doc.numberOfUses === 1) {
-          cb(doc.pass);
+          deferred.resolve(doc.pass);
           coll.remove({_id: ObjectID(id)}, true);
         } else if(doc.numberOfUses > 1) {
           coll.update({_id: ObjectID(id)}, {$inc: {numberOfUses: -1}}, (err, result) => {
             if(err) {
-              cb(false);
+              deferred.reject(err);
               console.log(err);
             } else {
-              cb(doc.pass);
+              deferred.resolve(doc.pass);
             }
           });
         } else {
-          cb(false);
+          deferred.resolve(false);
           coll.remove({_id: ObjectID(id)}, true);
         }
       });
+      return deferred.promise;
+    },
+    validatePasses() {
+      const deferred = q.defer();
+      try {
+        const coll = db.collection("pass");
+        deferred.resolve(
+          coll.remove({$or: [
+            {numberOfUses: {$lte: 0}},
+            {deathDate: {$lte: new Date().getTime()}}
+          ]})
+        );
+      } catch(e) {
+        deferred.reject(e);
+      }
+      return deferred.promise;
     }
   }
 

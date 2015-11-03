@@ -1,17 +1,25 @@
 "use strict";
 
-var md = require("marked");
-var fs = require("fs");
-var path = require("path");
+(function () {
+	"use strict";
 
-module.exports = function (filename, cb) {
-  "use strict";
+	var md = require("marked");
+	var fs = require("fs");
+	var path = require("path");
 
-  fs.readFile(path.join(__dirname, "..", "..", filename + ".md"), "utf8", function (err, parsed) {
-    if (err) {
-      cb(false, err);
-    } else {
-      cb(md(parsed.toString()));
-    }
-  });
-};
+	module.exports = function (filename) {
+		"use strict";
+
+		var deferred = require("q").defer();
+
+		fs.readFile(path.join(__dirname, "..", "..", filename + ".md"), "utf8", function (err, parsed) {
+			if (err) {
+				deferred.reject(e);
+			} else {
+				deferred.resolve(md(parsed.toString()));
+			}
+		});
+
+		return deferred.promise;
+	};
+})();

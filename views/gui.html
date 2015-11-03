@@ -8,22 +8,22 @@
 <body>
 
   <h1>URL Generator</h1>
-  <form method="post" action="http://gubbins-ansballard.rhcloud.com/api/generate/">
+  <form method="post" action="/api/generate/">
     <div>
       <label for="pass">Password</label>
-      <input type="text" id="pass" name="content" required/>
+      <input type="text" maxlength="140" id="pass" name="content" required/>
     </div>
     <div>
       <label for="numberOfUses">Number of Uses</label>
-      <input type="number" min="1" step="1" id="numberOfUses" name="numberOfUses" placeholder="1"/>
+      <input type="number" min="1" max="100" step="1" id="numberOfUses" name="numberOfUses" placeholder="1"/>
     </div>
     <div>
       <label for="hoursToLive">Hours To Stay Active</label>
-      <input type="number" min="1" step="1" id="hoursToLive" name="hoursToLive" placeholder="24"/>
+      <input type="number" min="1" max="168" step="1" id="hoursToLive" name="hoursToLive" placeholder="24"/>
     </div>
     <div>
       <label for="from">From</label>
-      <input type="text" id="from" name="from"/>
+      <input type="text" maxlength="140" id="from" name="from"/>
     </div>
     <div>
       <button type="submit" id="getURLBtn">Get URL</button>

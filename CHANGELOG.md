@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.1 (11/2/2015)
+
+**Implemented Features**
+
+- Switched callbacks to promises with `q`
+- Added parameter info to README
+- Catching exceptions/http status errors, just send back 500
+- Cron job to clear old passes once a day
+
+**Bug Fixes**
+
+- Bugs!
+
 ## 0.1.0 (10/31/2015)
 
 **Implemented Features**
