@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.2 (11/12/2015)
+
+**Implemented Features**
+
+- https!
+
+**Bug Fixes**
+
+- Bugs!
+
 ## 0.1.1 (11/2/2015)
 
 **Implemented Features**

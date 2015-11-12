@@ -48,7 +48,7 @@
       encryption.keygen((key) => {
         let enc = encryption.encrypt(req.params.content.toString("utf8"), key);
         database.addPass(enc).then((id) => {
-            res.send("http://gubbins-ansballard.rhcloud.com/api/getpass/" + id + "/" + key).end();
+            res.send("https://gubbins-ansballard.rhcloud.com/api/getpass/" + id + "/" + key).end();
           }, (err) => {
             res.status(500).end();
           })
@@ -71,7 +71,7 @@
             req.body.from || undefined
           );
         }).then((id) => {
-          res.send("http://gubbins-ansballard.rhcloud.com/api/getpass/" + id + "/" + key).end();
+          res.send("https://gubbins-ansballard.rhcloud.com/api/getpass/" + id + "/" + key).end();
         }, (err) => {
           res.status(500).end();
         })
