@@ -28,7 +28,8 @@
     "test": "./node_modules/.bin/gulp test",
     "build": "./node_modules/.bin/gulp default",
     "start": "node server.js",
-    "dev": "./node_modules/.bin/nodemon --watch dist server.js"
+    "dev": "./node_modules/.bin/nodemon --watch dist server.js",
+    "localdev": "(rhc env list -a gubbins | tr \"\n\" \" \"; echo \"npm run dev\") | bash"
   },
   "repository": {
     "type": "git",
