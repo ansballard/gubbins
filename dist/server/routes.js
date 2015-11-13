@@ -46,7 +46,7 @@
       encryption.keygen(function (key) {
         var enc = encryption.encrypt(req.params.content.toString("utf8"), key);
         database.addPass(enc).then(function (id) {
-          res.send("http://gubbins-ansballard.rhcloud.com/api/getpass/" + id + "/" + key).end();
+          res.send("https://gubbins-ansballard.rhcloud.com/api/getpass/" + id + "/" + key).end();
         }, function (err) {
           res.status(500).end();
         }).catch(function (e) {
@@ -63,7 +63,7 @@
       }).then(function (enc) {
         return database.addPass(enc, req.body.numberOfUses || undefined, req.body.hoursToLive || undefined, req.body.from || undefined);
       }).then(function (id) {
-        res.send("http://gubbins-ansballard.rhcloud.com/api/getpass/" + id + "/" + key).end();
+        res.send("https://gubbins-ansballard.rhcloud.com/api/getpass/" + id + "/" + key).end();
       }, function (err) {
         res.status(500).end();
       }).catch(function (e) {
