@@ -5,10 +5,14 @@
 **Implemented Features**
 
 - https!
+- Bootstrap
+- Nav for all pages
+- Restyled Readme slightly
 
 **Bug Fixes**
 
-- Bugs!
+- Valid HTML for the readme and changelog
+- Validation checks for NaN `deathDate`s
 
 ## 0.1.1 (11/2/2015)
 

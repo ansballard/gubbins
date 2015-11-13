@@ -1,42 +1,62 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gubbins GUI</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
 </head>
+
 <body>
 
-  <h1>URL Generator</h1>
-  <form method="post" action="/api/generate/">
-    <div>
-      <label for="pass">Password</label>
-      <input type="text" maxlength="140" id="pass" name="content" required/>
+  <div class="page-header">
+    <h1>Gubbins
+      <small>URL Generator</small>
+    </h1>
+  </div>
+  <form method="post" action="/api/generate/" class="col-xs-12 col-sm-6 form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-4" for="pass">Password</label>
+      <div class="col-sm-6">
+        <input class="form-control" type="text" maxlength="140" id="pass" name="content" required/>
+      </div>
     </div>
-    <div>
-      <label for="numberOfUses">Number of Uses</label>
-      <input type="number" min="1" max="100" step="1" id="numberOfUses" name="numberOfUses" placeholder="1"/>
+    <div class="form-group">
+      <label class="col-sm-4" for="numberOfUses">Number of Uses</label>
+      <div class="col-sm-6">
+        <input class="form-control" type="number" min="1" max="100" step="1" id="numberOfUses" name="numberOfUses" placeholder="Default: 1 Use" />
+      </div>
     </div>
-    <div>
-      <label for="hoursToLive">Hours To Stay Active</label>
-      <input type="number" min="1" max="168" step="1" id="hoursToLive" name="hoursToLive" placeholder="24"/>
+    <div class="form-group">
+      <label class="col-sm-4" for="hoursToLive">Hours To Stay Active</label>
+      <div class="col-sm-6">
+        <input class="form-control" type="number" min="1" max="168" step="1" id="hoursToLive" name="hoursToLive" placeholder="Default: 24 Hours" />
+      </div>
     </div>
-    <div>
-      <label for="from">From</label>
-      <input type="text" maxlength="140" id="from" name="from"/>
+    <div class="form-group">
+      <label class="col-sm-4" for="from">From</label>
+      <div class="col-sm-6">
+        <input class="form-control" type="text" maxlength="140" id="from" name="from" />
+      </div>
     </div>
-    <div>
-      <button type="submit" id="getURLBtn">Get URL</button>
+    <div class="form-group">
+      <div class="col-xs-12">
+        <button class="btn btn-primary" type="submit" id="getURLBtn">Get URL</button>
+      </div>
     </div>
   </form>
 
-  <div>
-    <h1>Links</h1>
-    <a href="/readme" title="Readme">Readme</a>
-    <a href="/changelog" title="Changelog">Changelog</a>
-    <a href="https://github.com/ansballard/gubbins" title="Github Repo">Github Repo</a>
+  <div class="col-xs-12 col-sm-6">
+    <ul class="col-xs-10 nav nav-pills nav-stacked">
+      <li role="presentation" class="active"><a href="/">Generator</a></li>
+      <li role="presentation"><a href="/readme">Readme</a></li>
+      <li role="presentation"><a href="/changelog">Changelog</a></li>
+      <li role="presentation"><a href="https://github.com/ansballard/gubbins">Repo</a></li>
+    </ul>
   </div>
 
 </body>
+
 </html>
