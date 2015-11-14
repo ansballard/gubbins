@@ -1,5 +1,4 @@
 (() => {
-  "use strict";
 
   const MongoClient = require('mongodb').MongoClient;
   const ObjectID = require('mongodb').ObjectID;
@@ -59,7 +58,6 @@
           coll.update({_id: ObjectID(id)}, {$inc: {numberOfUses: -1}}, (err, result) => {
             if(err) {
               deferred.reject(err);
-              console.log(err);
             } else {
               deferred.resolve(doc.pass);
             }

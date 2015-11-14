@@ -1,5 +1,4 @@
 (() => {
-  "use strict";
 
   const encryption = require("./encryption");
   const markdown = require("./markdown");
@@ -12,7 +11,6 @@
         root: app.get("views")
       }, function(err) {
         if (err) {
-          console.log(err);
           res.status(err.status).end();
         }
       })

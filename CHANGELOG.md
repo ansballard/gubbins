@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.3 (11/13/2015)
+
+**Implemented Features**
+
+- Removed gulp
+- Added linting
+- Removed unnecessary `"use strict"`s
+- Ignored dist
+  - Site can now be built in 0.10.x (serverside)
+
+**Bug Fixes**
+
+- bugs!
+
 ## 0.1.2 (11/12/2015)
 
 **Implemented Features**

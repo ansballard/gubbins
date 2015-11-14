@@ -1,5 +1,4 @@
 (() => {
-  "use strict";
 
   const express = require("express");
     const bodyParser = require("body-parser");
@@ -39,14 +38,14 @@
 
   require("./routes.js")(app, database);
   require("./cron.js")(database)
-    .then((res) => {
-      console.log("cronned");
-    }, (e) => {
-      console.log("failed");
+    .then(() => {
+
+    }, () => {
+
     });
 
-  http.createServer(app).listen(app.get("port"), app.get("ip"), () => { "use strict";
-    console.log("Express server listening at " + app.get("ip") + ":" + app.get("port"));
+  http.createServer(app).listen(app.get("port"), app.get("ip"), () => {
+
   });
 
 })();

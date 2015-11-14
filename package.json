@@ -1,6 +1,6 @@
 {
   "name": "gubbins",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A password-sharing web service",
   "main": "server.js",
   "dependencies": {
@@ -17,17 +17,18 @@
     "q": "^1.4.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.1.18",
     "babel-preset-es2015": "^6.1.4",
-    "del": "^2.0.2",
-    "gulp": "^3.9.0",
-    "gulp-babel": "^6.0.0",
-    "gulp-plumber": "^1.0.1",
-    "require-dir": "^0.3.0"
+    "eslint": "^1.9.0",
+    "nodemon": "^1.8.1",
+    "watch": "^0.16.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/gulp test",
-    "build": "./node_modules/.bin/gulp default",
+    "build": "./node_modules/.bin/babel src/node --out-dir dist/server",
+    "prebuild": "./node_modules/.bin/eslint src/node/*.js",
+    "watch": "./node_modules/.bin/watch \"npm run build\" src/node",
     "start": "node server.js",
+    "prestart": "npm run build",
     "dev": "./node_modules/.bin/nodemon --watch dist server.js",
     "localdev": "(rhc env list -a gubbins | tr \"\n\" \" \"; echo \"npm run dev\") | bash"
   },

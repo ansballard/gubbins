@@ -1,6 +1,6 @@
 (function() {
   "use strict";
 
-  require(require("./gulpconfig").main);
+  require("./dist/server/app.js");
 
 })();
