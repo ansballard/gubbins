@@ -28,7 +28,6 @@
     "prebuild": "./node_modules/.bin/eslint src/node/*.js",
     "watch": "./node_modules/.bin/watch \"npm run build\" src/node",
     "start": "node server.js",
-    "prestart": "npm run build",
     "dev": "./node_modules/.bin/nodemon --watch dist server.js",
     "localdev": "(rhc env list -a gubbins | tr \"\n\" \" \"; echo \"npm run dev\") | bash"
   },
