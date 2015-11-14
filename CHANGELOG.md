@@ -12,7 +12,7 @@
 
 **Bug Fixes**
 
-- bugs!
+- Fixed site building on Openshift
 
 ## 0.1.2 (11/12/2015)
 
