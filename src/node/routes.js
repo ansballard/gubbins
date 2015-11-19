@@ -1,7 +1,6 @@
 (() => {
 
   const encryption = require("./encryption");
-  const markdown = require("./markdown");
 
   module.exports = function(app, database) {
     "use strict";
@@ -13,33 +12,27 @@
         if (err) {
           res.status(err.status).end();
         }
-      })
+      });
     });
 
     app.get("/readme", (req, res) => {
-      const fallback = "Welcome to Gubbins! See <a href='http://github.com/ansballard/gubbins#readme'>Github</a> for instructions!";
-      markdown("README").then(
-        (content) => {
-          res.send(content).end();
-        }, (err) => {
-          res.send(fallback).end();
-        }).catch((e) => {
-          res.send(fallback).end();
-        })
-      ;
+      res.sendFile("README.html", {
+        root: app.get("views")
+      }, function(err) {
+        if (err) {
+          res.status(err.status).end();
+        }
+      });
     });
 
     app.get("/changelog", (req, res) => {
-      const fallback = "Welcome to Gubbins! See <a href='http://github.com/ansballard/gubbins#changelog'>Github</a> for a full changelog and version information!";
-      markdown("CHANGELOG").then(
-        (content) => {
-          res.send(content).end();
-        }, (err) => {
-          res.send(fallback).end();
-        }).catch((e) => {
-          res.send(fallback).end();
-        })
-      ;
+      res.sendFile("CHANGELOG.html", {
+        root: app.get("views")
+      }, function(err) {
+        if (err) {
+          res.status(err.status).end();
+        }
+      });
     });
 
     app.get("/api/generate/:content/", (req, res) => {

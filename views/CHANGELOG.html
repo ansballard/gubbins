@@ -52,37 +52,80 @@
     <h1>Gubbins</h1>
   </div>
   <div class="col-xs-12 col-sm-6">
-<form method="post" action="/api/generate/" class="form-horizontal">
-  <div class="form-group">
-    <label class="col-sm-4" for="pass">Password</label>
-    <div class="col-sm-6">
-      <input class="form-control" type="text" maxlength="140" id="pass" name="content" required/>
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="col-sm-4" for="numberOfUses">Number of Uses</label>
-    <div class="col-sm-6">
-      <input class="form-control" type="number" min="1" max="100" step="1" id="numberOfUses" name="numberOfUses" placeholder="Default: 1 Use" />
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="col-sm-4" for="hoursToLive">Hours To Stay Active</label>
-    <div class="col-sm-6">
-      <input class="form-control" type="number" min="1" max="168" step="1" id="hoursToLive" name="hoursToLive" placeholder="Default: 24 Hours" />
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="col-sm-4" for="from">From</label>
-    <div class="col-sm-6">
-      <input class="form-control" type="text" maxlength="140" id="from" name="from" />
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-xs-12">
-      <button class="btn btn-primary" type="submit" id="getURLBtn">Get URL</button>
-    </div>
-  </div>
-</form>
+<h1 id="changelog">Changelog</h1>
+<h2 id="0-1-3-11-13-2015-">0.1.3 (11/13/2015)</h2>
+<p><strong>Implemented Features</strong></p>
+<ul>
+<li>Removed gulp</li>
+<li>Added linting</li>
+<li>Removed unnecessary <code>&quot;use strict&quot;</code>s</li>
+<li>Ignored dist<ul>
+<li>Site can now be built in 0.10.x (serverside)</li>
+</ul>
+</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+<li>Fixed site building on Openshift</li>
+</ul>
+<h2 id="0-1-2-11-12-2015-">0.1.2 (11/12/2015)</h2>
+<p><strong>Implemented Features</strong></p>
+<ul>
+<li>https!</li>
+<li>Bootstrap</li>
+<li>Nav for all pages</li>
+<li>Restyled Readme slightly</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+<li>Valid HTML for the readme and changelog</li>
+<li>Validation checks for NaN <code>deathDate</code>s</li>
+</ul>
+<h2 id="0-1-1-11-2-2015-">0.1.1 (11/2/2015)</h2>
+<p><strong>Implemented Features</strong></p>
+<ul>
+<li>Switched callbacks to promises with <code>q</code></li>
+<li>Added parameter info to README</li>
+<li>Catching exceptions/http status errors, just send back 500</li>
+<li>Cron job to clear old passes once a day</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+<li>Bugs!</li>
+</ul>
+<h2 id="0-1-0-10-31-2015-">0.1.0 (10/31/2015)</h2>
+<p><strong>Implemented Features</strong></p>
+<ul>
+<li><code>api/generate</code> POST route doesn&#39;t use url parameters</li>
+<li>GUI for generating is now the root path</li>
+<li>Readme is now at <code>/readme</code></li>
+<li><code>numberOfUses</code> is explicitly cast as an int</li>
+<li>Markdown logic is now moved to <code>markdown.js</code></li>
+<li>Switched <code>gui.html</code> post action to real url</li>
+<li>Removed console.logs</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+<li>Bugs!</li>
+</ul>
+<h2 id="0-0-2-10-31-2015-">0.0.2 (10/31/2015)</h2>
+<p><strong>Implemented Features</strong></p>
+<ul>
+<li>Real URLs in the readme</li>
+<li>The root route now returns the README parsed to html</li>
+<li>The changelog can be reached at <code>/changelog</code></li>
+<li>A <code>from</code> parameter is now available for generated passes</li>
+<li>Spookiness</li>
+<li>Generate now returns an absolute URL, no <code>a</code> element</li>
+<li>Less <code>console.log</code></li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+<li>Bugs!</li>
+</ul>
+<hr>
+<h2 id="0-0-1-10-30-2015-">0.0.1 (10/30/2015)</h2>
+<p><strong>Initial Commit!</strong></p>
 
     </div>
     <div class="col-xs-12 col-sm-6">

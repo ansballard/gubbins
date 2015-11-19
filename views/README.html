@@ -52,37 +52,46 @@
     <h1>Gubbins</h1>
   </div>
   <div class="col-xs-12 col-sm-6">
-<form method="post" action="/api/generate/" class="form-horizontal">
-  <div class="form-group">
-    <label class="col-sm-4" for="pass">Password</label>
-    <div class="col-sm-6">
-      <input class="form-control" type="text" maxlength="140" id="pass" name="content" required/>
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="col-sm-4" for="numberOfUses">Number of Uses</label>
-    <div class="col-sm-6">
-      <input class="form-control" type="number" min="1" max="100" step="1" id="numberOfUses" name="numberOfUses" placeholder="Default: 1 Use" />
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="col-sm-4" for="hoursToLive">Hours To Stay Active</label>
-    <div class="col-sm-6">
-      <input class="form-control" type="number" min="1" max="168" step="1" id="hoursToLive" name="hoursToLive" placeholder="Default: 24 Hours" />
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="col-sm-4" for="from">From</label>
-    <div class="col-sm-6">
-      <input class="form-control" type="text" maxlength="140" id="from" name="from" />
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-xs-12">
-      <button class="btn btn-primary" type="submit" id="getURLBtn">Get URL</button>
-    </div>
-  </div>
-</form>
+<h1 id="readme">Readme</h1>
+<h2 id="generate-passwords">Generate Passwords</h2>
+<p>A password url can be generated with a simple GET request to <code>https://gubbins-ansballard.rhcloud.com/api/generate/&lt;password&gt;</code>. This will return a link to a page that display the password once, and deletes it immediately. This page is only accessible for 24 hours.</p>
+<p>Custom <code>numberOfUses</code>,<code>hoursToLive</code>, and <code>from</code> values can be set via a post request to the above URL, and providing the parameters.</p>
+<h2 id="parameter-requirements">Parameter Requirements</h2>
+<ol>
+<li><p>Password</p>
+<ul>
+<li>Required</li>
+<li>Positive integer</li>
+<li>140 characters or less</li>
+</ul>
+</li>
+<li><p>Number of Uses</p>
+<ul>
+<li>Optional</li>
+<li>Defaults to 1</li>
+<li>Positive integer</li>
+<li>100 or less</li>
+</ul>
+</li>
+<li><p>Hours to Live</p>
+<ul>
+<li>Optional</li>
+<li>Defaults to 24</li>
+<li>Positive integer</li>
+<li>168 (7 days) or less</li>
+</ul>
+</li>
+<li><p>From</p>
+<ul>
+<li>Optional</li>
+<li>Defaults to nothing</li>
+<li>String</li>
+<li>140 characters or less</li>
+</ul>
+</li>
+</ol>
+<h2 id="development">Development</h2>
+<p>All development can be handled via npm and gulp. <code>npm run build</code> will build all server files to <code>dist/</code>. <code>gulp watch</code> will build files as they change. <code>npm run dev</code> will deploy a dev server that restarts on file changes. Running <code>npm run dev</code> and <code>gulp watch</code> in separate terminals will allow for rapid dev.</p>
 
     </div>
     <div class="col-xs-12 col-sm-6">

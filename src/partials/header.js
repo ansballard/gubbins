@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+(() => {
+  "use strict";
+  module.exports = `<!DOCTYPE html>
 <html>
 <head>
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -52,46 +54,5 @@
     <h1>Gubbins</h1>
   </div>
   <div class="col-xs-12 col-sm-6">
-<form method="post" action="/api/generate/" class="form-horizontal">
-  <div class="form-group">
-    <label class="col-sm-4" for="pass">Password</label>
-    <div class="col-sm-6">
-      <input class="form-control" type="text" maxlength="140" id="pass" name="content" required/>
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="col-sm-4" for="numberOfUses">Number of Uses</label>
-    <div class="col-sm-6">
-      <input class="form-control" type="number" min="1" max="100" step="1" id="numberOfUses" name="numberOfUses" placeholder="Default: 1 Use" />
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="col-sm-4" for="hoursToLive">Hours To Stay Active</label>
-    <div class="col-sm-6">
-      <input class="form-control" type="number" min="1" max="168" step="1" id="hoursToLive" name="hoursToLive" placeholder="Default: 24 Hours" />
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="col-sm-4" for="from">From</label>
-    <div class="col-sm-6">
-      <input class="form-control" type="text" maxlength="140" id="from" name="from" />
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-xs-12">
-      <button class="btn btn-primary" type="submit" id="getURLBtn">Get URL</button>
-    </div>
-  </div>
-</form>
-
-    </div>
-    <div class="col-xs-12 col-sm-6">
-      <ul class="col-xs-10 nav nav-pills nav-stacked">
-        <li role="presentation"><a href="/">Generator</a></li>
-        <li role="presentation"><a href="/readme">Readme</a></li>
-        <li role="presentation"><a href="/changelog">Changelog</a></li>
-      </ul>
-    </div>
-  </div>
-</body>
-</html>
+`;
+})();

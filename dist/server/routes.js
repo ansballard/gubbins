@@ -3,7 +3,6 @@
 (function () {
 
   var encryption = require("./encryption");
-  var markdown = require("./markdown");
 
   module.exports = function (app, database) {
     "use strict";
@@ -19,24 +18,22 @@
     });
 
     app.get("/readme", function (req, res) {
-      var fallback = "Welcome to Gubbins! See <a href='http://github.com/ansballard/gubbins#readme'>Github</a> for instructions!";
-      markdown("README").then(function (content) {
-        res.send(content).end();
+      res.sendFile("README.html", {
+        root: app.get("views")
       }, function (err) {
-        res.send(fallback).end();
-      }).catch(function (e) {
-        res.send(fallback).end();
+        if (err) {
+          res.status(err.status).end();
+        }
       });
     });
 
     app.get("/changelog", function (req, res) {
-      var fallback = "Welcome to Gubbins! See <a href='http://github.com/ansballard/gubbins#changelog'>Github</a> for a full changelog and version information!";
-      markdown("CHANGELOG").then(function (content) {
-        res.send(content).end();
+      res.sendFile("CHANGELOG.html", {
+        root: app.get("views")
       }, function (err) {
-        res.send(fallback).end();
-      }).catch(function (e) {
-        res.send(fallback).end();
+        if (err) {
+          res.status(err.status).end();
+        }
       });
     });
 
