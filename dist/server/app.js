@@ -1,25 +1,23 @@
-"use strict";
+(() => {
 
-(function () {
+  const express = require("express");
+    const bodyParser = require("body-parser");
+    const cookieParser = require("cookie-parser");
+    const methodOverride = require("method-override");
+    const session = require("express-session");
+    const cors = require("cors");
+    const morgan = require("morgan");
+  const app = express();
 
-  var express = require("express");
-  var bodyParser = require("body-parser");
-  var cookieParser = require("cookie-parser");
-  var methodOverride = require("method-override");
-  var session = require("express-session");
-  var cors = require("cors");
-  var morgan = require("morgan");
-  var app = express();
+  const http = require("http");
+  const path = require("path");
 
-  var http = require("http");
-  var path = require("path");
+  const database = require("./database").init();
 
-  var database = require("./database").init();
+  let ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+  let port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
-  var ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
-  var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
-
-  var corsOptions = {
+  let corsOptions = {
     origin: true,
     methods: ["GET", "POST"]
   };
@@ -34,12 +32,20 @@
   app.use(morgan(process.env.OPENSHIFT_NODEJS_IP ? undefined : "dev"));
   app.use(methodOverride());
   app.use(cookieParser());
-  app.use(session({ secret: process.env.DBEXPRESSSECRET ? process.env.DBEXPRESSSECRET : "devSecret", resave: false, saveUninitialized: false }));
+  app.use(session({secret: process.env.DBEXPRESSSECRET ? process.env.DBEXPRESSSECRET : "devSecret", resave: false, saveUninitialized: false}));
   app.use(express.static(path.join(__dirname, "public")));
   app.use(cors(corsOptions));
 
   require("./routes.js")(app, database);
-  require("./cron.js")(database).then(function () {}, function () {});
+  require("./cron.js")(database)
+    .then(() => {
 
-  http.createServer(app).listen(app.get("port"), app.get("ip"), function () {});
+    }, () => {
+
+    });
+
+  http.createServer(app).listen(app.get("port"), app.get("ip"), () => {
+
+  });
+
 })();
