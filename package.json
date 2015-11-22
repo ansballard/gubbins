@@ -44,7 +44,7 @@
   },
   "scripts": {
     "build": "gulp",
-    "prebuild": "gulp lint",
+    "prebuild": "gulp lint:node",
     "watch": "gulp watch",
     "start": "node server.js",
     "dev": "./node_modules/.bin/nodemon --watch dist server.js",

@@ -65,7 +65,7 @@
   gulp.task("sass", () => {
     return gulp.src("./src/scss/*.scss")
       .pipe(sass())
-      //.pipe(cssmin())
+      .pipe(cssmin())
       .pipe(concat("styles.css"))
       .pipe(gulp.dest("./dist/css/"))
     ;

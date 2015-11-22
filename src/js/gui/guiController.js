@@ -16,7 +16,7 @@ function GuiController(APIService) {
       const toSend = {
         content: content,
         numberOfUses: numberOfUses || 1,
-        hoursToLive: hoursToLive || 168,
+        hoursToLive: hoursToLive || 24,
         from: from
       };
       vm.loadingUrl = true;
