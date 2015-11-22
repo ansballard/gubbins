@@ -1,6 +1,7 @@
 (() => {
   "use strict";
 
+  const argv = require("yargs").argv;
   const gulp = require("gulp");
   const markdown = require("gulp-markdown");
   const wrapper = require("gulp-wrapper");
@@ -17,33 +18,17 @@
   const source = require('vinyl-source-stream');
   const buffer = require('vinyl-buffer');
 
-  const header = require("./src/partials/header");
-  const footer = require("./src/partials/footer");
-
   require("./gulpTasks/browserify")(gulp);
   require("./gulpTasks/templates")(gulp);
 
   gulp.task("markdownviews", () => {
     return gulp.src("./*.md")
       .pipe(markdown())
-      .pipe(wrapper({
-        header: header,
-        footer: footer
-      }))
       .pipe(rename((path) => {
-        path.extname = ".html"
+        path.extname = ".template.html",
+        path.basename = path.basename.toLowerCase()
       }))
-      .pipe(gulp.dest("./views/"))
-    ;
-  });
-
-  gulp.task("htmlviews", () => {
-    return gulp.src("./src/partials/*.html")
-      .pipe(wrapper({
-        header: header,
-        footer: footer
-      }))
-      .pipe(gulp.dest("./views/"))
+      .pipe(gulp.dest("./src/partials/"))
     ;
   });
 
@@ -63,20 +48,24 @@
   });
 
   gulp.task("sass", () => {
-    return gulp.src("./src/scss/*.scss")
+    const sassStream = gulp.src("./src/scss/*.scss")
       .pipe(sass())
-      .pipe(cssmin())
+    ;
+    if(typeof argv.prod !== "undefined") {
+      sassStream.pipe(cssmin());
+    }
+    return sassStream.pipe(cssmin())
       .pipe(concat("styles.css"))
       .pipe(gulp.dest("./dist/css/"))
     ;
   });
 
-  gulp.task("default", ["markdownviews", "htmlviews", "babel:node", "sass"]);
+  gulp.task("default", ["markdownviews", "babel:node", "sass", "bundle"]);
 
   gulp.task("watch", ["default"], () => {
     gulp.watch("./src/node/*.js", ["babel:node"]);
     gulp.watch("./src/scss/*.scss", ["sass"]);
-    gulp.watch("./src/js/**/*.html", ["templates"]);
+    gulp.watch(["./src/js/**/*.html", "./src/partials/*.html"], ["templates"]);
     gulp.watch("./src/partials/*.js", ["markdownviews"]);
   });
 

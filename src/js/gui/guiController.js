@@ -20,6 +20,7 @@ function GuiController(APIService) {
         from: from
       };
       vm.loadingUrl = true;
+      vm.generatedUrl = "";
       APIService.generateUrl(toSend)
         .then(
           (res) => {

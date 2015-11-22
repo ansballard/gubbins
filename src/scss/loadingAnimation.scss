@@ -1,23 +1,24 @@
 $color: #286090;
 $wiggleDistance: 10px;
 $wiggleDuration: 2s;
+$loaderYOffset: -27px;
+$loaderXOffset: 12px;
 
 @keyframes wiggle {
   0%, 75%, 100% {
-    top: 0;
+    transform: translateY(0);
     background-color: $color;
   }
   25% {
-    top: -$wiggleDistance;
+    transform: translateY(-$wiggleDistance);
   }
   50% {
-    top: $wiggleDistance;
+    transform: translateY($wiggleDistance);
   }
 }
 .loader {
   position: absolute;
-  top: 7px;
-  margin-left: 5px;
+  transform: translate($loaderXOffset, $loaderYOffset);
 }
 .bit {
   display: inline-block;

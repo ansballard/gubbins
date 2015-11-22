@@ -10,6 +10,12 @@ function RouteConfig($routeProvider) {
       controllerAs: "vm",
       bindToController: true
     })
+    .when("/readme", {
+      templateUrl: "readme.template.html"
+    })
+    .when("/changelog", {
+      templateUrl: "changelog.template.html"
+    })
     .otherwise({
       redirectTo: "/"
     })

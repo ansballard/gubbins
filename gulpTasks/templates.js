@@ -7,8 +7,13 @@
     const plumber = require("gulp-plumber");
     const templateCache = require("gulp-angular-templatecache");
 
-    gulp.task("templates", () => {
-      return gulp.src(path.join(__dirname, "..", "src", "js", "**", "*.html"))
+    const paths = [
+      path.join(__dirname, "..", "src", "js", "**", "*.html"),
+      path.join(__dirname, "..", "src", "partials", "*.html")
+    ];
+
+    gulp.task("templates", ["markdownviews"], () => {
+      return gulp.src(paths)
         .pipe(plumber())
         .pipe(templateCache({
           module: "gubbins.templates",

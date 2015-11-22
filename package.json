@@ -1,6 +1,6 @@
 {
   "name": "gubbins",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A password-sharing web service",
   "main": "server.js",
   "dependencies": {
@@ -47,7 +47,7 @@
     "prebuild": "gulp lint:node",
     "watch": "gulp watch",
     "start": "node server.js",
-    "dev": "./node_modules/.bin/nodemon --watch dist server.js",
+    "dev": "./node_modules/.bin/nodemon --watch dist server.js --delay 2",
     "localdev": "(rhc env list -a gubbins | tr \"\n\" \" \"; echo \"npm run dev\") | bash"
   },
   "repository": {

@@ -16,23 +16,11 @@
     });
 
     app.get("/readme", (req, res) => {
-      res.sendFile("README.html", {
-        root: app.get("views")
-      }, function(err) {
-        if (err) {
-          res.status(err.status).end();
-        }
-      });
+      res.redirect("#/readme");
     });
 
     app.get("/changelog", (req, res) => {
-      res.sendFile("CHANGELOG.html", {
-        root: app.get("views")
-      }, function(err) {
-        if (err) {
-          res.status(err.status).end();
-        }
-      });
+      res.redirect("#/changelog");
     });
 
     app.get("/api/generate/:content/", (req, res) => {

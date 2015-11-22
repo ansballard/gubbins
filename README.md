@@ -33,4 +33,9 @@ Custom `numberOfUses`,`hoursToLive`, and `from` values can be set via a post req
 
 ## Development
 
-All development can be handled via npm and gulp. `npm run build` will build all server files to `dist/`. `gulp watch` will build files as they change. `npm run dev` will deploy a dev server that restarts on file changes. Running `npm run dev` and `gulp watch` in separate terminals will allow for rapid dev.
+All development can be handled via npm and gulp. Gulp handles building Node (through an npm script) and the frontend code (gulp directly), while npm handles running the server with nodemon. To build all relevant files and rebuild on changes, 3 terminals are required.
+1. `npm run watch`
+2. `npm run dev`
+3. `gulp watchify`
+
+These scripts will build all relevant files initially, start the server, and rebuild changed files while developing. This will not set server variables for connecting to your DB. See the npm script `localdev` for an example to pull in variables from a remote environment/service. 

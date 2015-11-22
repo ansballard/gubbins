@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.1.5 (11/13/2015)
+
+**Implemented Features**
+
+- Readded gulp
+  - sass
+  - angular
+  - browserify/watchify
+  - templating with ngRoute
+  - Ajax url generation
+- Nice loading animation
+- Updated dev instructions
+
+**Bug Fixes**
+
+- Fixed site building on Openshift
+
 ## 0.1.3 (11/13/2015)
 
 **Implemented Features**
