@@ -1,0 +1,46 @@
+<form class="form-horizontal">
+  <div class="form-group">
+    <label class="col-sm-4" for="pass">Password</label>
+    <div class="col-sm-6">
+      <input class="form-control" ng-model="content" type="text" maxlength="140" id="pass" name="content" required/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-4" for="numberOfUses">Number of Uses</label>
+    <div class="col-sm-6">
+      <input class="form-control" ng-model="numberOfUses" type="number" min="1" max="100" step="1" id="numberOfUses" name="numberOfUses" placeholder="Default: 1 Use" />
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-4" for="hoursToLive">Hours To Stay Active</label>
+    <div class="col-sm-6">
+      <input class="form-control" ng-model="hoursToLive" type="number" min="1" max="168" step="1" id="hoursToLive" name="hoursToLive" placeholder="Default: 24 Hours" />
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-4" for="from">From</label>
+    <div class="col-sm-6">
+      <input class="form-control" ng-model="from" type="text" maxlength="140" id="from" name="from" />
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-4">
+      <button class="btn btn-primary" ng-click="vm.generateUrl(content, numberOfUses, hoursToLive, from)" type="button" id="getURLBtn">Get URL</button>
+    </div>
+    <div class="col-sm-6" ng-show="vm.loadingUrl || vm.generatedUrl">
+      <label class="sr-only" for="url">Generated URL</label>
+      <input readonly class="form-control" id="url" type="url" ng-model="vm.generatedUrl"/>
+      <div class="loader" ng-show="vm.loadingUrl">
+        <span class="bit bit-1"></span>
+        <span class="bit bit-2"></span>
+        <span class="bit bit-3"></span>
+        <span class="bit bit-4"></span>
+      </div>
+    </div>
+    <div class="col-sm-6">
+    </div>
+  </div>
+</form>
+<div class="col-xs-12">
+  <div ng-click="vm.showStatusMessage = false;" ng-show="vm.showStatusMessage" style="cursor: pointer;" class="alert" ng-class="'alert-' + vm.statusClass" role="alert">{{vm.statusMessage}}</div>
+</div>

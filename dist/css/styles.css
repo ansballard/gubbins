@@ -1,0 +1,51 @@
+@keyframes wiggle {
+  0%, 75%, 100% {
+    top: 0;
+    background-color: #286090; }
+  25% {
+    top: -10px; }
+  50% {
+    top: 10px; } }
+
+.loader {
+  position: absolute;
+  top: 7px;
+  margin-left: 5px; }
+
+.bit {
+  display: inline-block;
+  position: relative;
+  width: 10px;
+  height: 10px;
+  background-color: #286090;
+  animation: wiggle 2s ease-in-out infinite;
+  border-radius: 50%; }
+
+.bit-2 {
+  animation-delay: 0.2s; }
+
+.bit-3 {
+  animation-delay: 0.4s; }
+
+.bit-4 {
+  animation-delay: 0.6s; }
+
+.github-corner:hover .octo-arm {
+  animation: octocat-wave 560ms ease-in-out; }
+
+@keyframes octocat-wave {
+  0%,
+  100% {
+    transform: rotate(0); }
+  20%,
+  60% {
+    transform: rotate(-25deg); }
+  40%,
+  80% {
+    transform: rotate(10deg); } }
+
+@media (max-width: 500px) {
+  .github-corner:hover .octo-arm {
+    animation: none; }
+  .github-corner .octo-arm {
+    animation: octocat-wave 560ms ease-in-out; } }

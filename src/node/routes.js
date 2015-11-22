@@ -6,7 +6,7 @@
     "use strict";
 
     app.get("/", (req, res) => {
-      res.sendFile("gui.html", {
+      res.sendFile("index.html", {
         root: app.get("views")
       }, function(err) {
         if (err) {

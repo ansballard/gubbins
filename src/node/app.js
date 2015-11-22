@@ -26,6 +26,7 @@
   app.set("ip", ipaddress);
   app.set("views", path.join(__dirname, "..", "..", "views"));
   app.set("view engine", "html");
+  app.use(express.static("dist"));
   app.use(cors());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));

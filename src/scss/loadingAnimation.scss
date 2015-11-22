@@ -1,0 +1,39 @@
+$color: #286090;
+$wiggleDistance: 10px;
+$wiggleDuration: 2s;
+
+@keyframes wiggle {
+  0%, 75%, 100% {
+    top: 0;
+    background-color: $color;
+  }
+  25% {
+    top: -$wiggleDistance;
+  }
+  50% {
+    top: $wiggleDistance;
+  }
+}
+.loader {
+  position: absolute;
+  top: 7px;
+  margin-left: 5px;
+}
+.bit {
+  display: inline-block;
+  position: relative;
+  width: $wiggleDistance;
+  height: $wiggleDistance;
+  background-color: $color;
+  animation: wiggle $wiggleDuration ease-in-out infinite;
+  border-radius: 50%;
+}
+.bit-2 {
+  animation-delay: ($wiggleDuration / 10);
+}
+.bit-3 {
+  animation-delay: ($wiggleDuration / 10 * 2);
+}
+.bit-4 {
+  animation-delay: ($wiggleDuration / 10 * 3);
+}

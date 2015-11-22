@@ -8,7 +8,7 @@
     "use strict";
 
     app.get("/", function (req, res) {
-      res.sendFile("gui.html", {
+      res.sendFile("index.html", {
         root: app.get("views")
       }, function (err) {
         if (err) {

@@ -7,6 +7,9 @@
   const rename = require("gulp-rename");
   const babel = require("gulp-babel");
   const uglify = require("gulp-uglify");
+  const sass = require("gulp-sass");
+  const cssmin = require("gulp-minify-css");
+  const concat = require("gulp-concat");
   const eslint = require("gulp-eslint");
 
   const watchify = require('watchify');
@@ -18,6 +21,7 @@
   const footer = require("./src/partials/footer");
 
   require("./gulpTasks/browserify")(gulp);
+  require("./gulpTasks/templates")(gulp);
 
   gulp.task("markdownviews", () => {
     return gulp.src("./*.md")
@@ -51,23 +55,6 @@
     ;
   });
 
-  gulp.task("lint:js", () => {
-    return gulp.src("./src/js/*.js")
-      .pipe(eslint())
-      .pipe(eslint.format())
-    ;
-  });
-
-  gulp.task("lint", ["lint:node", "lint:js"]);
-
-  gulp.task("babel:js", ["lint:js"], () => {
-    return gulp.src("./src/js/*.js")
-      .pipe(babel())
-      .pipe(uglify())
-      .pipe(gulp.dest("./dist/js/"))
-    ;
-  });
-
   gulp.task("babel:node", ["lint:node"], () => {
     return gulp.src("./src/node/*.js")
       .pipe(babel())
@@ -75,15 +62,22 @@
     ;
   });
 
-  gulp.task("babel", ["babel:node", "babel:js"]);
+  gulp.task("sass", () => {
+    return gulp.src("./src/scss/*.scss")
+      .pipe(sass())
+      //.pipe(cssmin())
+      .pipe(concat("styles.css"))
+      .pipe(gulp.dest("./dist/css/"))
+    ;
+  });
 
-  gulp.task("default", ["markdownviews", "htmlviews", "babel"]);
+  gulp.task("default", ["markdownviews", "htmlviews", "babel:node", "sass"]);
 
   gulp.task("watch", ["default"], () => {
     gulp.watch("./src/node/*.js", ["babel:node"]);
-    gulp.watch("./src/js/*.js", ["babel:js"]);
-    gulp.watch("./src/partials/*.md", ["markdownviews"]);
-    gulp.watch("./src/partials/*.html", ["markdownhtml"]);
+    gulp.watch("./src/scss/*.scss", ["sass"]);
+    gulp.watch("./src/js/**/*.html", ["templates"]);
+    gulp.watch("./src/partials/*.js", ["markdownviews"]);
   });
 
 
