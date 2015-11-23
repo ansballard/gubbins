@@ -1,6 +1,14 @@
 # Changelog
 
-## 0.1.5 (11/13/2015)
+## 0.2.0 (11/22/2015)
+
+**Implemented Features**
+
+- Switched getPass url to an ejs server rendered page
+- database.getPass now returns "from"
+- Using "gub" to refer to the password object
+
+## 0.1.5 (11/22/2015)
 
 **Implemented Features**
 
@@ -12,10 +20,6 @@
   - Ajax url generation
 - Nice loading animation
 - Updated dev instructions
-
-**Bug Fixes**
-
-- Fixed site building on Openshift
 
 ## 0.1.3 (11/13/2015)
 

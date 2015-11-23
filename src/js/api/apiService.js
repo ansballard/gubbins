@@ -13,7 +13,7 @@ function APIService($http) {
       });
     },
     getPass(id, key) {
-      return $http.get("/api/getpass/" + id + "/" + key);
+      return $http.get("/api/getgub/" + id + "/" + key);
     }
   };
 }

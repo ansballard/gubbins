@@ -25,7 +25,7 @@ function GuiController(APIService) {
         .then(
           (res) => {
             if(res.status === 200) {
-              vm.generatedUrl = res.data;
+              vm.generatedUrl = res.data.replace("/api/getPass/", "/gub/");
             } else {
               setStatusMessage("HTTP Status: " + res.status, "danger");
             }

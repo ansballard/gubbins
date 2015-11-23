@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gubbins</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="page-header">
+    <h1>Gubbins <small>a password sharing app</small></h1>
+  </div>
+
+  <div class="col-xs-12 col-sm-6">
+    <% if (status === 200) { %>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= from ? " Password From \"" + from + "\"": "Password Shared With You" %></h3>
+      </div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label for="pass" class="col-sm-4" style="padding-left:0;padding-right:40px;">Shared Password</label>
+          <div class="col-sm-8">
+            <input type="text" id="pass" class="form-control" readonly value="<%= pass %>"/>
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer">
+        This password will be erased when you leave/refresh this page
+      </div>
+    </div>
+    <% } else { %>
+      <div class="panel panel-<%= status === 403 ? "warning" : "danger" %>">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <%= status === 403 ? "This Page is Forbidden" : "There has been a server error." %>
+          </h3>
+        </div>
+        <div class="panel-body">
+          <% if (status === 403) { %>
+            There is not a valid password for this URL. The page may have already been visited, or your URL may not be correct.
+          <% } else { %>
+            There has been an error attempting to render this page.
+          <% } %>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</body>
+
+</html>

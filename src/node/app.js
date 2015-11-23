@@ -25,7 +25,7 @@
   app.set("port", port);
   app.set("ip", ipaddress);
   app.set("views", path.join(__dirname, "..", "..", "views"));
-  app.set("view engine", "html");
+  app.set("view engine", "ejs");
   app.use(express.static("dist"));
   app.use(cors());
   app.use(bodyParser.json());

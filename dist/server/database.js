@@ -13,7 +13,6 @@
       var conn = "mongodb://" + process.env.DBUSER + ":" + process.env.DBPASS + "@" + process.env.DBURL;
       MongoClient.connect(conn, function (err, _db) {
         if (!err) {
-          console.log("DB Connection Successful");
           db = _db;
         } else {
           throw err;
@@ -53,14 +52,20 @@
           deferred.resolve(false);
           coll.remove({ _id: ObjectID(id) }, true);
         } else if (doc.numberOfUses === 1) {
-          deferred.resolve(doc.pass);
+          deferred.resolve({
+            pass: doc.pass,
+            from: doc.from
+          });
           coll.remove({ _id: ObjectID(id) }, true);
         } else if (doc.numberOfUses > 1) {
           coll.update({ _id: ObjectID(id) }, { $inc: { numberOfUses: -1 } }, function (err, result) {
             if (err) {
               deferred.reject(err);
             } else {
-              deferred.resolve(doc.pass);
+              deferred.resolve({
+                pass: doc.pass,
+                from: doc.from
+              });
             }
           });
         } else {

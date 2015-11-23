@@ -1,5 +1,7 @@
 (() => {
 
+  const q = require("q");
+
   const encryption = require("./encryption");
 
   module.exports = function(app, database) {
@@ -23,11 +25,29 @@
       res.redirect("#/changelog");
     });
 
+    app.get("/gub/:id/:key", (req, res) => {
+      getGub(req).then((gub) => {
+        res.status(gub.status);
+        res.render("gub", {
+          status: gub.status,
+          pass: gub.content || "",
+          from: gub.from || ""
+        });
+      }, (passRes) => {
+        res.status(500);
+        res.render("gub", {
+          status: 500,
+          pass: "",
+          from: ""
+        });
+      });
+    });
+
     app.get("/api/generate/:content/", (req, res) => {
       encryption.keygen((key) => {
         let enc = encryption.encrypt(req.params.content.toString("utf8"), key);
         database.addPass(enc).then((id) => {
-            res.send("https://gubbins-ansballard.rhcloud.com/api/getpass/" + id + "/" + key).end();
+            res.send("https://gubbins-ansballard.rhcloud.com/gub/" + id + "/" + key).end();
           }, (err) => {
             res.status(500).end();
           })
@@ -50,7 +70,7 @@
             req.body.from || undefined
           );
         }).then((id) => {
-          res.send("https://gubbins-ansballard.rhcloud.com/api/getpass/" + id + "/" + key).end();
+          res.send("https://gubbins-ansballard.rhcloud.com/gub/" + id + "/" + key).end();
         }, (err) => {
           res.status(500).end();
         })
@@ -60,23 +80,46 @@
       ;
     });
 
-    app.get("/api/getpass/:id/:key", (req, res) => {
-      database.getPass(req.params.id).then((pass) => {
-          if (!pass) {
-            res.status(403).end();
+    app.get("/api/getgub/:id/:key", (req, res) => {
+      getGub(req).then((passResponse) => {
+        if(passResponse.status === 200) {
+          res.send(passResponse.content).end();
+        } else {
+          res.status(passResponse.status).end()
+        }
+      });
+    });
+
+    function getGub(req) {
+      const deferred = q.defer();
+      console.log("start getGub");
+      database.getPass(req.params.id).then((gub) => {
+          if (!gub) {
+            console.log("wrongGub");
+            deferred.resolve({status: 403});
           } else {
-            encryption.decrypt(pass, req.params.key).then((plaintext) => {
-              res.send(plaintext).end();
+            console.log("gotGub");
+            console.log(gub);
+            encryption.decrypt(gub.pass, req.params.key).then((plaintext) => {
+              console.log("decryptedGub");
+              deferred.resolve({
+                status: 200,
+                content: plaintext,
+                from: gub.from
+              });
             });
           }
         }, (err) => {
-          res.status(500).end();
+          deferred.resolve({status: 500});
         })
         .catch((e) => {
-          res.status(500).end();
+          console.log("brokeGub");
+          console.log(e);
+          deferred.reject({status: 500});
         })
       ;
-    });
+      return deferred.promise;
+    }
   };
 
 })();
