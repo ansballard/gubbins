@@ -1,7 +1,9 @@
-$waveDuration: 560ms;
+:root {
+  --waveDuration: 560ms;
+}
 
 .github-corner:hover .octo-arm {
-  animation: octocat-wave $waveDuration ease-in-out
+  animation: octocat-wave var(--waveDuration) ease-in-out
 }
 
 @keyframes octocat-wave {
@@ -24,6 +26,6 @@ $waveDuration: 560ms;
     animation: none
   }
   .github-corner .octo-arm {
-    animation: octocat-wave $waveDuration ease-in-out
+    animation: octocat-wave var(--waveDuration) ease-in-out
   }
 }

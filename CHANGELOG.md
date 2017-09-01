@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.0 (08/31/2017)
+
+- housekeeping
+  - replaced rhloud references
+  - replaced sass with modern css
+  - fixed `npm run localdev`
+  - no more building node, just run `./server`
+  - clean arrow functions
+  - format with prettier
+  - split out eslint configs
+
 ## 0.2.0 (11/22/2015)
 
 **Implemented Features**

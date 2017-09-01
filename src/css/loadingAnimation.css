@@ -1,0 +1,42 @@
+:root {
+  --color: #286090;
+  --wiggleDistance: 10px;
+  --wiggleDuration: 2s;
+  --loaderYOffset: -27px;
+  --loaderXOffset: 12px;
+}
+
+@keyframes wiggle {
+  0%, 75%, 100% {
+    transform: translateY(0);
+    background-color: var(--color);
+  }
+  25% {
+    transform: translateY(calc(var(--wiggleDistance) * -1);
+  }
+  50% {
+    transform: translateY(var(--wiggleDistance));
+  }
+}
+.loader {
+  position: absolute;
+  transform: translate(var(--loaderXOffset, var(--loaderYOffset));
+}
+.bit {
+  display: inline-block;
+  position: relative;
+  width: $wiggleDistance;
+  height: $wiggleDistance;
+  background-color: var(--color);
+  animation: wiggle var(--wiggleDuration) ease-in-out infinite;
+  border-radius: 50%;
+}
+.bit-2 {
+  animation-delay: (var(--wiggleDuration) / 10);
+}
+.bit-3 {
+  animation-delay: (var(--wiggleDuration) / 10 * 2);
+}
+.bit-4 {
+  animation-delay: (var(--wiggleDuration) / 10 * 3);
+}

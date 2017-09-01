@@ -23,18 +23,20 @@ function GuiController(APIService) {
       vm.generatedUrl = "";
       APIService.generateUrl(toSend)
         .then(
-          (res) => {
-            if(res.status === 200) {
+          res => {
+            if (res.status === 200) {
               vm.generatedUrl = res.data.replace("/api/getPass/", "/gub/");
             } else {
               setStatusMessage("HTTP Status: " + res.status, "danger");
             }
             vm.loadingUrl = false;
-          }, (res) => {
+          },
+          res => {
             setStatusMessage("HTTP Status: " + res.status, "danger");
             vm.loadingUrl = false;
           }
-        ).catch((ex) => {
+        )
+        .catch(ex => {
           setStatusMessage(ex, "danger");
           vm.loadingUrl = false;
         });

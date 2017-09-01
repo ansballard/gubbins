@@ -1,6 +1,2 @@
-(function() {
-  "use strict";
-
-  require("./dist/server/app.js");
-
-})();
+/*eslint-env node*/
+require("./server/app.js");

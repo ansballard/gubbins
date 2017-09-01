@@ -2,7 +2,7 @@
 
 ## Generate Passwords
 
-A password url can be generated with a simple GET request to `https://gubbins-ansballard.rhcloud.com/api/generate/<password>`. This will return a link to a page that display the password once, and deletes it immediately. This page is only accessible for 24 hours.
+A password url can be generated with a simple GET request to `localhost:3001/api/generate/<password>`. This will return a link to a page that display the password once, and deletes it immediately. This page is only accessible for 24 hours.
 
 Custom `numberOfUses`,`hoursToLive`, and `from` values can be set via a post request to the above URL, and providing the parameters.
 
@@ -33,9 +33,18 @@ Custom `numberOfUses`,`hoursToLive`, and `from` values can be set via a post req
 
 ## Development
 
-All development can be handled via npm and gulp. Gulp handles building Node (through an npm script) and the frontend code (gulp directly), while npm handles running the server with nodemon. To build all relevant files and rebuild on changes, 3 terminals are required.
-1. `npm run watch`
-2. `npm run dev`
-3. `gulp watchify`
+**npm run build**
 
-These scripts will build all relevant files initially, start the server, and rebuild changed files while developing. This will not set server variables for connecting to your DB. See the npm script `localdev` for an example to pull in variables from a remote environment/service. 
+Builds js, css, and templates for README and CHANGELOG
+
+**npm run watch**
+
+Watches for changes and rebuilds affected files
+
+**npm start**
+
+Serves the site via express using environment variables for IP, PORT, and DB info
+
+**npm run dev**
+
+Serves the site locally, connection to `mongodb://localhost/gubbins`

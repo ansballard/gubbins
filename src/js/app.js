@@ -8,15 +8,12 @@ import "../../.tmp/templates";
 
 import routes from "./routes/routeConfig";
 
-(() => {
-  "use strict";
-
-  angular.module("gubbins", [
+angular
+  .module("gubbins", [
     "ngRoute",
 
     "gubbins.api",
     "gubbins.gui",
     "gubbins.templates"
-  ]).config(routes);
-
-})();
+  ])
+  .config(routes);

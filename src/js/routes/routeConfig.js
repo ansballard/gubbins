@@ -18,6 +18,5 @@ function RouteConfig($routeProvider) {
     })
     .otherwise({
       redirectTo: "/"
-    })
-  ;
+    });
 }
