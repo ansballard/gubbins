@@ -1,34 +1,35 @@
-const crypto = require("crypto");
+const {
+  randomBytes,
+  createCipheriv,
+  createDecipheriv
+} = require("crypto");
+const { v4: uuid } = require("uuid");
+const { promisify } = require("util");
+const randomBytesAsync = promisify(randomBytes);
 
-module.exports = {
-  keygen() {
-    return new Promise((resolve, reject) => {
-      crypto.randomBytes(16, (e, buf) => {
-        if (e) {
-          reject(e);
-        } else {
-          resolve(buf.toString("hex"));
-        }
-      });
-    });
-  },
-  encrypt(content, key) {
-    let encrypted, cipher;
+exports.keygen = async () => {
+  const buf = await randomBytesAsync(16);
+  return {
+    key: buf.toString("hex"),
+    id: uuid()
+  };
+}
+exports.encrypt = (content, key) => {
+  let encrypted, cipher;
 
-    cipher = crypto.createCipher("aes-256-cbc", key);
-    encrypted = cipher.update(content, "utf8", "hex");
-    encrypted += cipher.final("hex");
-    cipher = null;
+  cipher = createCipheriv("aes-256-cbc", key, Buffer.alloc(16, 0));
+  encrypted = cipher.update(content, "utf8", "hex");
+  encrypted += cipher.final("hex");
+  cipher = null;
 
-    return Promise.resolve(encrypted);
-  },
-  decrypt(content, key) {
-    let decrypted, cipher;
+  return encrypted;
+}
+exports.decrypt = (content, key) => {
+  let decrypted, cipher;
 
-    cipher = crypto.createDecipher("aes-256-cbc", key);
-    decrypted = cipher.update(content, "hex", "utf8");
-    decrypted += cipher.final("utf8");
+  cipher = createDecipheriv("aes-256-cbc", key, Buffer.alloc(16, 0));
+  decrypted = cipher.update(content, "hex", "utf8");
+  decrypted += cipher.final("utf8");
 
-    return Promise.resolve(decrypted);
-  }
-};
+  return decrypted;
+}

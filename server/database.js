@@ -1,103 +1,74 @@
 const { MongoClient, ObjectID } = require("mongodb");
-let db;
 
-module.exports = {
-  init() {
-    let conn = process.env.LOCAL
-      ? "mongodb://localhost/gubbins"
-      : `mongodb://${process.env.DBUSER}:${process.env.DBPASS}@${process.env
-          .DBURL}`;
-    MongoClient.connect(conn, (err, _db) => {
-      if (!err) {
-        db = _db;
-      } else {
-        throw err;
+const mongoConnectionString = process.env.LOCAL
+? "mongodb://localhost/gubbins"
+: `mongodb://${
+  process.env.DBUSER
+}:${
+  process.env.DBPASS
+}@${
+  process.env.DBURL
+}`;
+
+console.log(`Connecting to mongo: ${mongoConnectionString}`);
+
+const client = MongoClient.connect(mongoConnectionString, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+});
+
+exports.getCollection = async function getCollection(name) {
+  return (await client).db("gubbins").collection(name);
+}
+
+exports.addGub = async function addGub(content, id, numberOfUses = 1, hoursToLive = 24, from) {
+  const gubs = await exports.getCollection("gubs");
+  let deathDate = new Date().getTime() + (hoursToLive) * 1000 * 60 * 60;
+  if (isNaN(deathDate)) {
+    throw new Error(`Invalid death date (check hoursToLive: ${hoursToLive}, deathDate: ${deathDate}`);
+  }
+  await gubs.insertOne({
+    id,
+    content,
+    numberOfUses,
+    from,
+    deathDate
+  });
+  return id;
+};
+
+exports.getGub = async function get(id) {
+  const gubs = await exports.getCollection("gubs");
+  const gub = await gubs.findOne({ id });
+  if(!gub) {
+    return false;
+  }
+  if(gub.deathDate < new Date().getTime() || gub.numberOfUses < 1) {
+    gubs.findOneAndDelete({ id });
+    return false;
+  }
+  if(gub.numberOfUses === 1) {
+    gubs.findOneAndDelete({ id });
+  } else {
+    gubs.findOneAndUpdate({ id }, {
+      $inc: {
+        numberOfUses: -1
       }
     });
-    return this;
-  },
-  addPass(pass, numberOfUses, hoursToLive, from) {
-    const coll = db.collection("pass");
-    pass = pass.length > 140 ? pass.substr(0, 140) : pass;
-    from = from && from.length > 140 ? from.substr(0, 140) : from;
-    let deathDate = new Date().getTime() + (hoursToLive || 24) * 1000 * 60 * 60;
-    if (!isNaN(deathDate)) {
-      return new Promise((resolve, reject) => {
-        coll.insert(
-          {
-            pass: pass,
-            numberOfUses: +numberOfUses || 1,
-            from: from,
-            deathDate: deathDate
-          },
-          { w: 1 },
-          (err, res) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(res.ops[0]._id);
-            }
-          }
-        );
-      });
-    } else {
-      return Promise.reject();
-    }
-  },
-  getPass(id) {
-    const coll = db.collection("pass");
-    return new Promise((resolve, reject) => {
-      coll.findOne({ _id: new ObjectID(id) }, (err, doc) => {
-        if (err) {
-          reject(err);
-        }
-        if (doc == null) {
-          resolve(false);
-        } else if (doc.deathDate < new Date().getTime()) {
-          resolve(false);
-          coll.remove({ _id: ObjectID(id) }, true);
-        } else if (doc.numberOfUses === 1) {
-          resolve({
-            pass: doc.pass,
-            from: doc.from
-          });
-          coll.remove({ _id: ObjectID(id) }, true);
-        } else if (doc.numberOfUses > 1) {
-          coll.update(
-            { _id: ObjectID(id) },
-            { $inc: { numberOfUses: -1 } },
-            (err, result) => {
-              if (err) {
-                reject(err);
-              } else {
-                resolve({
-                  pass: doc.pass,
-                  from: doc.from
-                });
-              }
-            }
-          );
-        } else {
-          resolve(false);
-          coll.remove({ _id: ObjectID(id) }, true);
-        }
-      });
-    });
-  },
-  validatePasses() {
-    try {
-      const coll = db.collection("pass");
-      return Promise.resolve(
-        coll.remove({
-          $or: [
-            { numberOfUses: { $lte: 0 } },
-            { deathDate: { $lte: new Date().getTime() } },
-            { deathDate: { $eq: "NaN" } }
-          ]
-        })
-      );
-    } catch (e) {
-      return Promise.reject(e);
-    }
   }
+  return {
+    content: gub.content,
+    from: gub.from
+  };
 };
+
+exports.cleanGubs = async function cleanGubs() {
+  const gubs = await exports.getCollection("gubs");
+  await gubs.remove({
+    $or: [
+      { numberOfUses: { $lte: 0 } },
+      { deathDate: { $lte: new Date().getTime() } },
+      { deathDate: { $eq: "NaN" } }
+    ]
+  });
+}
