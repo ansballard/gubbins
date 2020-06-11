@@ -18,18 +18,20 @@ module.exports = cors(compress(router(
   // renderFile("/", join(__dirname, "index.html"), "index"),
   // renderFile("/readme", join(__dirname, "..", "README.md"), "readme", marked),
   // renderFile("/changelog", join(__dirname, "..", "CHANGELOG.md"), "changelog", marked),
-  get("/api/generate/:content", async (req, res) => {
+  post("/api/gub", async (req, res) => {
+    const { numberOfUses, from, hoursToLive, content } = await json(req);
     const { id, key } = await keygen();
     await addGub(
-      encrypt(req.params.content, key),
-      id
+      encrypt(content, key),
+      id,
+      { numberOfUses, from, hoursToLive }
     );
     send(res, 200, {
       id,
       key
     });
   }),
-  get("/gub/:id/:key", async (req, res) => {
+  get("/api/gub/:id/:key", async (req, res) => {
     const { id, key } = req.params;
     const { content, from } = await getGub(id) || {};
     if(!content) {
@@ -40,5 +42,24 @@ module.exports = cors(compress(router(
       content: decrypted,
       from
     });
+  }),
+  get("/gub/:id/:key", async (req, res) => {
+    const { id, key } = req.params;
+    const view = `<html>
+      <body>
+        <div>
+          show the gub?
+        </div>
+        <button onclick="
+          fetch('/api/gub/${id}/${key}')
+            .then(res => res.status === 200 ? res.json() : {})
+            .then(console.log)
+        ">
+          Show
+        </button>
+      </body>
+    </html>`
+    res.setHeader("Content-Type", "text/html");
+    send(res, 200, view);
   }),
 )));

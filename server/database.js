@@ -17,11 +17,19 @@ const client = MongoClient.connect(mongoConnectionString, {
   useNewUrlParser: true,
 });
 
-exports.getCollection = async function getCollection(name) {
+exports.getCollection = async (name) => {
   return (await client).db("gubbins").collection(name);
 }
 
-exports.addGub = async function addGub(content, id, numberOfUses = 1, hoursToLive = 24, from) {
+exports.addGub = async (content, id, {
+  numberOfUses = 1,
+  hoursToLive = 24,
+  from = null
+} = {
+  numberOfUses: 1,
+  hoursToLive: 24,
+  from: null
+}) => {
   const gubs = await exports.getCollection("gubs");
   let deathDate = new Date().getTime() + (hoursToLive) * 1000 * 60 * 60;
   if (isNaN(deathDate)) {
@@ -37,24 +45,22 @@ exports.addGub = async function addGub(content, id, numberOfUses = 1, hoursToLiv
   return id;
 };
 
-exports.getGub = async function get(id) {
+exports.getGub = async (id) => {
   const gubs = await exports.getCollection("gubs");
-  const gub = await gubs.findOne({ id });
-  if(!gub) {
+  const { value: gub, ok } = await gubs.findOneAndUpdate({ id }, {
+    $inc: {
+      numberOfUses: -1
+    }
+  }, { returnOriginal: false });
+  if(!ok || !gub) {
     return false;
   }
-  if(gub.deathDate < new Date().getTime() || gub.numberOfUses < 1) {
+  if(gub.deathDate < new Date().getTime() || gub.numberOfUses < 0) {
     gubs.findOneAndDelete({ id });
     return false;
   }
-  if(gub.numberOfUses === 1) {
+  if(gub.numberOfUses === 0) {
     gubs.findOneAndDelete({ id });
-  } else {
-    gubs.findOneAndUpdate({ id }, {
-      $inc: {
-        numberOfUses: -1
-      }
-    });
   }
   return {
     content: gub.content,
@@ -62,7 +68,7 @@ exports.getGub = async function get(id) {
   };
 };
 
-exports.cleanGubs = async function cleanGubs() {
+exports.cleanGubs = async () => {
   const gubs = await exports.getCollection("gubs");
   await gubs.remove({
     $or: [
